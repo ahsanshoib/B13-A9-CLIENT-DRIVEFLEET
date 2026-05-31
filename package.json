@@ -20,5 +20,9 @@
     "react-dom": "^18",
     "react-hot-toast": "^2.6.0",
     "tailwindcss": "^4.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.6"
   }
 }
