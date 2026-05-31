@@ -1,0 +1,90 @@
+"use client";
+import { createContext, useContext, useEffect, useState } from "react";
+import { signIn, signOut, authClient } from "@/lib/auth-client";
+
+const AuthContext = createContext(null);
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const API = process.env.NEXT_PUBLIC_API_URL;
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  async function checkAuth() {
+    try {
+      const { data } = await authClient.getSession();
+      if (data?.user) {
+        setUser(data.user);
+      } else {
+        setUser(null);
+      }
+    } catch {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function loginWithEmail(email, password) {
+    const { data, error } = await signIn.email({ email, password });
+    if (error) throw new Error(error.message || "Login failed");
+    setUser(data.user);
+    return data;
+  }
+
+  async function registerWithEmail(name, email, password, image) {
+    const { data, error } = await authClient.signUp.email({
+      name,
+      email,
+      password,
+      image: image || "",
+    });
+    if (error) throw new Error(error.message || "Registration failed");
+    return data;
+  }
+
+  async function loginWithGoogle() {
+    await signIn.social({
+      provider: "google",
+      callbackURL: "http://localhost:3000",
+      fetchOptions: {
+        onSuccess: async () => {
+          await checkAuth();
+        },
+      },
+    });
+  }
+
+  async function logout() {
+    await signOut();
+    await fetch(`${API}/api/jwt/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
+    setUser(null);
+  }
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        loginWithEmail,
+        registerWithEmail,
+        loginWithGoogle,
+        logout,
+        checkAuth,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
+}
