@@ -18,18 +18,22 @@ export default function ProfilePage() {
     : "U";
 
   async function handleUpdate() {
-    setLoading(true);
-    try {
-      await authClient.updateUser({ name, image: photo });
-      await checkAuth();
-      toast.success("Profile updated!");
-      setEditing(false);
-    } catch {
-      toast.error("Failed to update");
-    } finally {
-      setLoading(false);
-    }
+  setLoading(true);
+  try {
+    const { error } = await authClient.updateUser({
+      name,
+      image: photo,
+    });
+    if (error) throw new Error(error.message);
+    await checkAuth();
+    toast.success("Profile updated!");
+    setEditing(false);
+  } catch (err) {
+    toast.error(err.message || "Failed to update");
+  } finally {
+    setLoading(false);
   }
+}
 
   return (
     <PrivateRoute>

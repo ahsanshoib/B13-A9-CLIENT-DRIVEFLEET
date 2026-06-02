@@ -6,6 +6,7 @@ export const authClient = createAuthClient({
   plugins: [jwtClient()],
   fetchOptions: {
     credentials: "include",
+    mode: "cors",
   },
 });
 
