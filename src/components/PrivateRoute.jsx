@@ -15,6 +15,6 @@ export default function PrivateRoute({ children }) {
   }, [user, loading]);
 
   if (loading) return <Spinner />;
-  if (!user) return null;
+  if (!user) return <Spinner/>;
   return children;
 }
