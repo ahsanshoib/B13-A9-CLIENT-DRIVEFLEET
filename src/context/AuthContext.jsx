@@ -48,11 +48,16 @@ export function AuthProvider({ children }) {
   }
 
   async function loginWithGoogle() {
-    await signIn.social({
-      provider: "google",
-      callbackURL: "https://b13-a9-client-drivefleet.vercel.app",
-    });
-  }
+  await signIn.social({
+    provider: "google",
+    callbackURL: "https://b13-a9-client-drivefleet.vercel.app",
+    fetchOptions: {
+      onSuccess: async () => {
+        await checkAuth();
+      },
+    },
+  });
+}
 
   async function logout() {
     await signOut();
