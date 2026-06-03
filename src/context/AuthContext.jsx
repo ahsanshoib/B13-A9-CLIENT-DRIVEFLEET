@@ -50,12 +50,7 @@ export function AuthProvider({ children }) {
   async function loginWithGoogle() {
     await signIn.social({
       provider: "google",
-      callbackURL: "http://localhost:3000",
-      fetchOptions: {
-        onSuccess: async () => {
-          await checkAuth();
-        },
-      },
+      callbackURL: "https://b13-a9-client-drivefleet.vercel.app",
     });
   }
 
