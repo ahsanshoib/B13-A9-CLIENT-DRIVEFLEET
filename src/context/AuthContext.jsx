@@ -30,7 +30,13 @@ export function AuthProvider({ children }) {
   }
 
   async function loginWithEmail(email, password) {
-    const { data, error } = await signIn.email({ email, password });
+    const { data, error } = await signIn.email({
+      email,
+      password,
+      fetchOptions: {
+        credentials: "include",
+      },
+    });
     if (error) throw new Error(error.message || "Login failed");
     setUser(data.user);
     return data;
@@ -42,22 +48,25 @@ export function AuthProvider({ children }) {
       email,
       password,
       image: image || "",
+      fetchOptions: {
+        credentials: "include",
+      },
     });
     if (error) throw new Error(error.message || "Registration failed");
     return data;
   }
 
   async function loginWithGoogle() {
-  await signIn.social({
-    provider: "google",
-    callbackURL: "https://b13-a9-client-drivefleet.vercel.app",
-    fetchOptions: {
-      onSuccess: async () => {
-        await checkAuth();
+    await signIn.social({
+      provider: "google",
+      callbackURL: "https://b13-a9-client-drivefleet.vercel.app",
+      fetchOptions: {
+        onSuccess: async () => {
+          await checkAuth();
+        },
       },
-    },
-  });
-}
+    });
+  }
 
   async function logout() {
     await signOut();
