@@ -176,17 +176,18 @@ export default function Home() {
       </section>
 
       {/* Stats */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 grid grid-cols-3 gap-8 text-center">
-          {stats.map((s, i) => (
-            <div key={i}>
-              <p className="text-5xl font-extrabold text-orange-400">{s.value}</p>
-              <div className="w-8 h-0.5 bg-orange-400 mx-auto my-2" />
-              <p className="text-xs font-bold tracking-widest text-gray-500">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+<section className="py-12 sm:py-16 bg-white">
+  <div className="max-w-4xl mx-auto px-4 grid grid-cols-3 gap-4 sm:gap-8 text-center">
+    {stats.map((s, i) => (
+      <div key={i}>
+        <p className="text-3xl sm:text-5xl font-extrabold text-orange-400">{s.value}</p>
+        <div className="w-6 sm:w-8 h-0.5 bg-orange-400 mx-auto my-2" />
+        <p className="text-[10px] sm:text-xs font-bold tracking-widest text-gray-500">{s.label}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
     </>
   );
 }

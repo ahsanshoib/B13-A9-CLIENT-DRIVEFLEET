@@ -107,31 +107,32 @@ export default function Footer() {
       </div>
 
       {/* Divider */}
+      
       <hr className="border-yellow-300 mx-4" />
 
       {/* Bottom: Copyright + Socials */}
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between text-sm text-gray-600">
-        <span>© 2026 Vintage Rides® All Rights Reserved</span>
-        <div className="flex gap-4 items-center">
-          <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-[#8b1a1a] transition-colors">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
-            </svg>
-          </a>
-          <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-[#8b1a1a] transition-colors">
-            <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-              <circle cx="12" cy="12" r="4" />
-              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-            </svg>
-          </a>
-          <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X" className="hover:text-[#8b1a1a] transition-colors">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-            </svg>
-          </a>
-        </div>
-      </div>
+<div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-gray-600">
+  <span className="text-center sm:text-left">© 2026 Vintage Rides® All Rights Reserved</span>
+  <div className="flex gap-4 items-center">
+    <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-[#8b1a1a] transition-colors">
+      <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+      </svg>
+    </a>
+    <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-[#8b1a1a] transition-colors">
+      <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+      </svg>
+    </a>
+    <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X" className="hover:text-[#8b1a1a] transition-colors">
+      <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+      </svg>
+    </a>
+  </div>
+</div>
     </footer>
   );
 }
