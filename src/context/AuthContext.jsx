@@ -14,43 +14,59 @@ export function AuthProvider({ children }) {
     checkAuth();
   }, []);
 
-  async function checkAuth() {
-    try {
-      const { data } = await authClient.getSession();
-      if (data?.user) {
-        setUser(data.user);
-      } else {
-        setUser(null);
-      }
-    } catch {
-      setUser(null);
-    } finally {
+ async function checkAuth() {
+  try {
+    // প্রথমে Better Auth session check
+    const { data } = await authClient.getSession();
+    if (data?.user) {
+      setUser(data.user);
       setLoading(false);
+      return;
     }
+    
+  
+    const res = await fetch(`${API}/api/user/me`, {
+      credentials: "include",
+    });
+    if (res.ok) {
+      const jwtData = await res.json();
+      setUser(jwtData.user);
+    } else {
+      setUser(null);
+    }
+  } catch {
+    setUser(null);
+  } finally {
+    setLoading(false);
   }
+}
 
   async function loginWithEmail(email, password) {
-    const { data, error } = await signIn.email({
-      email,
-      password,
-      fetchOptions: { credentials: "include" },
+  const { data, error } = await signIn.email({
+    email,
+    password,
+    fetchOptions: {
+      credentials: "include",
+    },
+  });
+  if (error) throw new Error(error.message || "Login failed");
+  
+
+  if (data?.user) {
+    await fetch(`${API}/api/jwt/token`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        email: data.user.email,
+        name: data.user.name,
+        photo: data.user.image || "",
+      }),
     });
-    if (error) throw new Error(error.message || "Login failed");
-    if (data?.user) {
-      await fetch(`${API}/api/jwt/token`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          email: data.user.email,
-          name: data.user.name,
-          photo: data.user.image || "",
-        }),
-      });
-      setUser(data.user);
-    }
-    return data;
+    setUser(data.user);
   }
+  return data;
+}
 
   async function registerWithEmail(name, email, password, image) {
     const { data, error } = await authClient.signUp.email({
@@ -58,15 +74,17 @@ export function AuthProvider({ children }) {
       email,
       password,
       image: image || "",
-      fetchOptions: { credentials: "include" },
+      fetchOptions: {
+        credentials: "include",
+      },
     });
     if (error) throw new Error(error.message || "Registration failed");
     return data;
   }
 
   async function loginWithGoogle() {
-    window.location.href = `${API}/api/auth/sign-in/social?provider=google&callbackURL=${encodeURIComponent("https://client-drivefleet.vercel.app")}`;
-  }
+  window.location.href = `${API}/api/auth/signin/google?callbackURL=${encodeURIComponent("https://client-drivefleet.vercel.app")}`;
+}
 
   async function logout() {
     await signOut();
