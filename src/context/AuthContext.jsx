@@ -83,7 +83,7 @@ export function AuthProvider({ children }) {
   }
 
   async function loginWithGoogle() {
-  window.location.href = `${API}/api/auth/signin/google?callbackURL=${encodeURIComponent("https://client-drivefleet.vercel.app")}`;
+  window.location.href = `${API}/api/auth/sign-in/social?provider=google&callbackURL=${encodeURIComponent("https://client-drivefleet.vercel.app")}`;
 }
 
   async function logout() {
