@@ -1,18 +1,32 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
 import { Eye, EyeOff } from "lucide-react";
 
-export default function LoginPage() {
-  const { loginWithEmail, loginWithGoogle } = useAuth();
+function LoginForm() {
+  const { loginWithEmail, loginWithGoogle, checkAuth, user } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const error = searchParams.get("error");
+    if (error) {
+      toast.error("Google login failed. Please try again.");
+      return;
+    }
+    checkAuth();
+  }, []);
+
+  useEffect(() => {
+    if (user) router.push("/");
+  }, [user]);
 
   async function handleLogin() {
     setLoading(true);
@@ -99,5 +113,13 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }
