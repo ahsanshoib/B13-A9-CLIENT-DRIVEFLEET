@@ -57,12 +57,8 @@ export function AuthProvider({ children }) {
   }
 
   async function loginWithGoogle() {
-    await signIn.social({
-      provider: "google",
-      callbackURL: "https://b13-a9-client-drivefleet.vercel.app/login",
-      errorCallbackURL: "https://b13-a9-client-drivefleet.vercel.app/login?error=google_failed",
-    });
-  }
+  window.location.href = `${API}/api/auth/sign-in/social?provider=google&callbackURL=https://b13-a9-client-drivefleet.vercel.app`;
+}
 
   async function logout() {
     await signOut();
