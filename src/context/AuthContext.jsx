@@ -82,7 +82,7 @@ export function AuthProvider({ children }) {
   async function loginWithGoogle() {
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: process.env.NEXT_PUBLIC_CLIENT_URL || "https://client-drivefleet.vercel.app",
+      callbackURL: "https://client-drivefleet.vercel.app",
     });
   }
 
