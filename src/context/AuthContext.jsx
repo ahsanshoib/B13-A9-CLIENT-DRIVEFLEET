@@ -18,6 +18,15 @@ export function AuthProvider({ children }) {
     try {
       const { data } = await authClient.getSession();
       if (data?.user) {
+        await fetch(`${API}/api/jwt/token`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            email: data.user.email,
+            name: data.user.name,
+          }),
+        });
         setUser(data.user);
         setLoading(false);
         return;
@@ -57,7 +66,6 @@ export function AuthProvider({ children }) {
         body: JSON.stringify({
           email: data.user.email,
           name: data.user.name,
-          photo: data.user.image || "",
         }),
       });
       setUser(data.user);
