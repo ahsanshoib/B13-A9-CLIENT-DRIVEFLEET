@@ -16,22 +16,6 @@ export function AuthProvider({ children }) {
 
   async function checkAuth() {
     try {
-      const { data } = await authClient.getSession();
-      if (data?.user) {
-        await fetch(`${API}/api/jwt/token`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({
-            email: data.user.email,
-            name: data.user.name,
-          }),
-        });
-        setUser(data.user);
-        setLoading(false);
-        return;
-      }
-
       const res = await fetch(`${API}/api/user/me`, {
         credentials: "include",
       });
