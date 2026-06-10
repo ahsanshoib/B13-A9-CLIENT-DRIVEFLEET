@@ -45,9 +45,18 @@ export default function MyBookingsPage() {
   return (
     <PrivateRoute>
       <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-center text-[#8b1a1a] mb-6 sm:mb-10 tracking-wide">
-          MY BOOKINGS
-        </h1>
+
+        {/* Header with counter */}
+        <div className="flex items-center justify-center gap-4 mb-6 sm:mb-10">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-center text-[#8b1a1a] tracking-wide">
+            MY BOOKINGS
+          </h1>
+          {!loading && (
+            <div className="flex items-center justify-center w-9 h-9 rounded-full bg-[#8b1a1a] text-white text-sm font-extrabold shadow-md">
+              {bookings.length}
+            </div>
+          )}
+        </div>
 
         {loading ? (
           <Spinner />
@@ -60,9 +69,7 @@ export default function MyBookingsPage() {
                 key={b._id}
                 className="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-gray-100"
               >
-                {/* Top row: image + info */}
                 <div className="flex gap-4">
-                  {/* Car Image */}
                   <div className="relative w-24 h-20 sm:w-28 sm:h-24 rounded-xl overflow-hidden flex-shrink-0">
                     <Image
                       src={b.carImage}
@@ -72,9 +79,7 @@ export default function MyBookingsPage() {
                     />
                   </div>
 
-                  {/* Info */}
                   <div className="flex-1 min-w-0">
-                    {/* Status + Price */}
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-0.5 rounded">
                         BOOKED
@@ -84,12 +89,10 @@ export default function MyBookingsPage() {
                       </span>
                     </div>
 
-                    {/* Car Name */}
                     <h3 className="font-bold text-gray-900 text-sm sm:text-base leading-snug">
                       {b.carName}
                     </h3>
 
-                    {/* Note */}
                     {b.note && (
                       <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">
                         {b.note}
@@ -98,9 +101,7 @@ export default function MyBookingsPage() {
                   </div>
                 </div>
 
-                {/* Bottom row: date + button */}
                 <div className="flex items-center justify-between gap-3 mt-3 flex-wrap">
-                  {/* Booked At Badge */}
                   <div className="bg-gray-100 text-gray-600 text-xs px-3 py-1.5 rounded-full">
                     Booked:{" "}
                     {new Date(b.bookedAt).toLocaleString("en-US", {
@@ -112,7 +113,6 @@ export default function MyBookingsPage() {
                     })}
                   </div>
 
-                  {/* Cancel Button */}
                   <button
                     onClick={() => setConfirmModal({ open: true, id: b._id })}
                     className="bg-[#8b1a1a] hover:bg-red-900 active:scale-95 text-white text-xs sm:text-sm font-bold px-4 sm:px-5 py-2 rounded-xl transition-all flex-shrink-0"
