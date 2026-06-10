@@ -28,8 +28,8 @@ export default function RegisterPage() {
     setLoading(true);
     try {
       await registerWithEmail(form.name, form.email, form.password, form.photo);
-      toast.success("Registration successful!");
-      router.push("/");
+      toast.success("Registered! Please login.");
+      router.push("/login");
     } catch (err) {
       toast.error(err.message || "Registration failed");
     } finally {

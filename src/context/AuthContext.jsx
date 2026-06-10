@@ -76,21 +76,6 @@ export function AuthProvider({ children }) {
       },
     });
     if (error) throw new Error(error.message || "Registration failed");
-
-    if (data?.user) {
-      await fetch(`${API}/api/jwt/token`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          email: data.user.email,
-          name: data.user.name,
-          photo: data.user.image || "",
-        }),
-      });
-      setUser(data.user);
-    }
-
     return data;
   }
 
