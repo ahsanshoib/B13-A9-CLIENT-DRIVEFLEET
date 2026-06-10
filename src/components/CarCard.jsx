@@ -1,7 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function CarCard({ car }) {
+  const { user } = useAuth();
+  const router = useRouter();
+
+  function handleViewDetails(e) {
+    if (!user) {
+      e.preventDefault();
+      router.push("/login");
+    }
+  }
+
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col">
       <div className="relative h-44 bg-gray-50 flex-shrink-0">
@@ -21,6 +33,7 @@ export default function CarCard({ car }) {
         </p>
         <Link
           href={`/cars/${car._id}`}
+          onClick={handleViewDetails}
           className="block text-center bg-orange-400 hover:bg-orange-500 text-white text-sm font-semibold py-2 px-4 rounded-full transition-colors"
         >
           View Details
