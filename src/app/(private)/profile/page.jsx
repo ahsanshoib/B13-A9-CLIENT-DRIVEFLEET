@@ -17,14 +17,17 @@ export default function ProfilePage() {
     ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
     : "U";
 
-  async function handleUpdate() {
+ async function handleUpdate() {
   setLoading(true);
   try {
-    const { error } = await authClient.updateUser({
-      name,
-      image: photo,
+    const API = process.env.NEXT_PUBLIC_API_URL;
+    const res = await fetch(`${API}/api/user/update`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ name, image: photo }),
     });
-    if (error) throw new Error(error.message);
+    if (!res.ok) throw new Error("Failed to update");
     await checkAuth();
     toast.success("Profile updated!");
     setEditing(false);
